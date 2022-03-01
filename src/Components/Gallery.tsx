@@ -10,7 +10,7 @@ export default function Gallery() {
     const[errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
-        fetch("https://rickandmortyapi.com/api/character1")
+        fetch("https://rickandmortyapi.com/api/character")
         .then(response => {
             if (response.status===200) {
                 return response.json()
@@ -25,8 +25,11 @@ export default function Gallery() {
 
 return (<div>
     <input type ='text' placeholder= 'Rick&Morty Charakter' value={search} onChange={e=>setSearch(e.target.value)}/>
+    <input data-testid="search-field" type='text' placeholder='Suchbegriff' value={search} onChange={ev=>setSearch(ev.target.value)}/>
+
        <div className="grid-container">
-        {charName.filter(e=> e.name.toLowerCase().includes(search.toLowerCase())).map(character => < CharacterCard
+        {charName.filter(e=> e.name.toLowerCase().includes(search.toLowerCase()))
+            .map(character => <div data-testid="gallery-item"  key={character.id}> < CharacterCard
             id = {character.id}
             name = {character.name}
             image = {character.image}
@@ -34,9 +37,10 @@ return (<div>
             status = {character.status}
             species = {character.species}
             gender = {character.gender}
-        />   )
+            />   </div>)
+
         }
-    </div>
+        </div>
 
     <div>{errorMessage}</div>
 </div>)
